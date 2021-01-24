@@ -11,7 +11,7 @@
           <v-rating :value="restaurant.rating.star" color="amber" dense half-increments readonly size="14"></v-rating>
           <div class="grey--text ml-4">{{ restaurant.rating.star }} ({{ restaurant.rating.total }})</div>
         </v-row>
-        <div class="my-4">
+        <div class="mt-4">
           {{
             restaurant.description.length > 40
               ? restaurant.description.substring(0, 40) + '...'

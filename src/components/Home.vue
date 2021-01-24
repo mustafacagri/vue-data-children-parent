@@ -99,8 +99,8 @@ export default defineComponent({
     const state = reactive({
       // if a restaurant is selected, we store its info here
       restaurant: null,
+      
       form: false,
-
       formData: {
         title: null,
         img: null,
@@ -117,9 +117,7 @@ export default defineComponent({
           v => !!v || 'Restaurant name is required',
           v => (v && v.length <= 20) || 'Restaurant name must be less than 20 characters'
         ],
-        img: [
-          v => !!v || 'Restaurant photo is required'
-        ],
+        img: [v => !!v || 'Restaurant photo is required'],
         rating: {
           star: [v => !!v || 'Star is required', v => (v && v <= 5 && v >= 0) || 'Star must be selected']
         }
@@ -175,10 +173,24 @@ export default defineComponent({
     const selected = restaurant => {
       state.restaurant = restaurant
       state.form = false
+      setTimeout(() => {
+        document.querySelector('.selectedRestaurant').scrollIntoView()
+      }, 0)
     }
 
     const clear = () => {
       state.restaurant = null
+    }
+    const clearForm = () => {
+      state.formData = {
+        title: null,
+        rating: {
+          star: null,
+          total: null
+        },
+        img: null,
+        description: null
+      }
     }
 
     const openForm = () => {
@@ -186,7 +198,7 @@ export default defineComponent({
     }
 
     const addNew = () => {
-      // 
+      //
       // there will be a validation here ASAP!
       state.valid = false
       const { title, img, rating, description } = state.formData
@@ -197,10 +209,11 @@ export default defineComponent({
         let index = state.restaurants[state.restaurants.length - 1].id + 1
         state.restaurants.unshift({ index, img, title, rating, description })
         state.form = false
+        clearForm()
       }
     }
 
-    return { ...toRefs(state), selected, clear, openForm, addNew }
+    return { ...toRefs(state), selected, clear, openForm, addNew, clearForm }
   }
 })
 </script>
